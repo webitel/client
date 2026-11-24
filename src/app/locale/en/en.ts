@@ -96,9 +96,11 @@ export default {
 		debugRecorder: {
 			title: 'Debug recording',
 			toggle: 'Record debug logs',
-			hint: 'Records network, calls and errors in all Webitel apps for 24 hours. Data stays in this browser until you download it.',
+			hint: 'Records network, calls and errors in all Webitel apps for 1 hour. The recording then stays in this browser until you delete it.',
 			status: 'Until {until} · {count} events',
 			download: 'Download archive',
+			archived: 'Recording stopped · {count} events',
+			delete: 'Delete',
 		},
 		security: {
 			security: 'Security',

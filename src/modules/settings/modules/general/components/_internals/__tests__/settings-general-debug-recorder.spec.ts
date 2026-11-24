@@ -8,10 +8,12 @@ const recorder = {
 	available: ref(true),
 	recording: ref(false),
 	enabledUntil: ref<number | null>(null),
+	archived: ref(false),
 	records: ref<number | null>(null),
 	busy: ref(false),
 	setRecording: vi.fn(async () => {}),
 	download: vi.fn(async () => {}),
+	deleteData: vi.fn(async () => {}),
 };
 
 vi.mock('@webitel/ui-sdk/modules/DebugRecorder/composables', () => ({
@@ -26,7 +28,7 @@ const mountSection = () =>
 					template: '<span class="hint-stub"><slot /></span>',
 				},
 				WtButton: {
-					template: '<button class="download-stub"><slot /></button>',
+					template: '<button class="button-stub"><slot /></button>',
 				},
 				WtSwitcher: {
 					props: [
@@ -47,8 +49,10 @@ describe('SettingsGeneralDebugRecorder', () => {
 		recorder.available.value = true;
 		recorder.recording.value = false;
 		recorder.enabledUntil.value = null;
+		recorder.archived.value = false;
 		recorder.records.value = null;
 		recorder.setRecording.mockClear();
+		recorder.deleteData.mockClear();
 	});
 
 	it('renders nothing when the app has no recorder', () => {
@@ -59,8 +63,8 @@ describe('SettingsGeneralDebugRecorder', () => {
 	it('off: one label with the details in a hint, no status or download', () => {
 		const wrapper = mountSection();
 		expect(wrapper.text()).toContain('Record debug logs');
-		expect(wrapper.find('.hint-stub').text()).toContain('24 hours');
-		expect(wrapper.find('.download-stub').exists()).toBe(false);
+		expect(wrapper.find('.hint-stub').text()).toContain('1 hour');
+		expect(wrapper.find('.button-stub').exists()).toBe(false);
 	});
 
 	it('on: shows until when and how many events, with download', () => {
@@ -68,7 +72,23 @@ describe('SettingsGeneralDebugRecorder', () => {
 		recorder.records.value = 42;
 		const wrapper = mountSection();
 		expect(wrapper.text()).toContain('42 events');
-		expect(wrapper.find('.download-stub').text()).toBe('Download archive');
+		expect(wrapper.findAll('.button-stub').map((b) => b.text())).toEqual([
+			'Download archive',
+		]);
+	});
+
+	it('after the hour: the kept archive, with download and delete', async () => {
+		recorder.archived.value = true;
+		recorder.records.value = 7;
+		const wrapper = mountSection();
+		expect(wrapper.text()).toContain('Recording stopped · 7 events');
+		const buttons = wrapper.findAll('.button-stub');
+		expect(buttons.map((b) => b.text())).toEqual([
+			'Download archive',
+			'Delete',
+		]);
+		await buttons[1].trigger('click');
+		expect(recorder.deleteData).toHaveBeenCalledOnce();
 	});
 
 	it('the switch turns recording on and off', async () => {

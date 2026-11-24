@@ -97,9 +97,11 @@ export default {
 		debugRecorder: {
 			title: 'Înregistrare pentru depanare',
 			toggle: 'Înregistrează jurnale de depanare',
-			hint: 'Înregistrează rețeaua, apelurile și erorile în toate aplicațiile Webitel timp de 24 de ore. Datele rămân în acest browser până le descărcați.',
+			hint: 'Înregistrează rețeaua, apelurile și erorile în toate aplicațiile Webitel timp de 1 oră. Apoi înregistrarea rămâne în acest browser până o ștergeți.',
 			status: 'Până la {until} · evenimente: {count}',
 			download: 'Descarcă arhiva',
+			archived: 'Înregistrare oprită · evenimente: {count}',
+			delete: 'Șterge',
 		},
 		security: {
 			security: 'Securitate',
