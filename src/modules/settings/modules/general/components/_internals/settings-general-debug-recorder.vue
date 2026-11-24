@@ -6,42 +6,38 @@
     <template #default>
       <settings-switcher-row
         :model-value="recording || enabledUntil !== null"
-        @update:model-value="toggle"
+        @update:model-value="setRecording"
       >
         <template #label>
-          <p>{{ t('settings.debugRecorder.toggle') }}</p>
+          <div class="settings-general-debug-recorder__label">
+            <p>{{ t('settings.debugRecorder.toggle') }}</p>
+            <wt-hint>{{ t('settings.debugRecorder.hint') }}</wt-hint>
+          </div>
         </template>
       </settings-switcher-row>
-      <p class="settings-general-debug-recorder__hint typo-body-2">
-        {{ t('settings.debugRecorder.description') }}
-      </p>
-      <template v-if="enabledUntil !== null">
-        <p class="typo-body-2">
+      <div
+        v-if="enabledUntil !== null"
+        class="settings-general-debug-recorder__status"
+      >
+        <p class="settings-general-debug-recorder__muted typo-body-2">
           {{ t('settings.debugRecorder.status', { until: formatTime(enabledUntil), count: records ?? 0 }) }}
         </p>
-        <p
-          v-if="justEnabled"
-          class="settings-general-debug-recorder__hint typo-body-2"
-        >
-          {{ t('settings.debugRecorder.reloadHint') }}
-        </p>
         <wt-button
-          class="settings-general-debug-recorder__download"
           color="secondary"
+          size="sm"
           :disabled="!records"
           :loading="busy"
           @click.prevent="download"
         >
           {{ t('settings.debugRecorder.download') }}
         </wt-button>
-      </template>
+      </div>
     </template>
   </settings-section-wrapper>
 </template>
 
 <script setup lang="ts">
 import { useDebugRecorder } from '@webitel/ui-sdk/modules/DebugRecorder/composables';
-import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import SettingsSectionWrapper from '../../../../components/_internals/settings-section-wrapper.vue';
 import SettingsSwitcherRow from '../../../../components/_internals/settings-switcher-row.vue';
@@ -58,14 +54,6 @@ const {
 	download,
 } = useDebugRecorder();
 
-// switching on mid-session misses connections opened before: say so once
-const justEnabled = ref(false);
-
-const toggle = async (on: boolean) => {
-	await setRecording(on);
-	justEnabled.value = on;
-};
-
 const formatTime = (t: number) =>
 	new Date(t).toLocaleString(locale.value, {
 		dateStyle: 'short',
@@ -74,11 +62,21 @@ const formatTime = (t: number) =>
 </script>
 
 <style scoped>
-.settings-general-debug-recorder__hint {
-  color: var(--text-secondary-color);
+.settings-general-debug-recorder__label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
 }
 
-.settings-general-debug-recorder__download {
-  align-self: flex-start;
+.settings-general-debug-recorder__status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.settings-general-debug-recorder__muted {
+  color: var(--text-secondary-color);
 }
 </style>

@@ -96,12 +96,9 @@ export default {
 		},
 		debugRecorder: {
 			title: 'Înregistrare pentru depanare',
-			toggle: 'Înregistrează date pentru suport',
-			description:
-				'Timp de 24 de ore, acest browser înregistrează cererile de rețea, apelurile, starea dispozitivelor și erorile în toate aplicațiile Webitel. Parolele și datele personale sunt eliminate și nimic nu părăsește browserul până când nu descărcați arhiva și nu o trimiteți echipei de suport.',
-			status: 'Înregistrare până la {until} · evenimente înregistrate: {count}',
-			reloadHint:
-				'Reîncărcați filele Webitel deschise (sau deschideți aplicația cu problema) pentru ca și conexiunile deschise anterior să fie înregistrate.',
+			toggle: 'Înregistrează jurnale de depanare',
+			hint: 'Înregistrează rețeaua, apelurile și erorile în toate aplicațiile Webitel timp de 24 de ore. Datele rămân în acest browser până le descărcați.',
+			status: 'Până la {until} · evenimente: {count}',
 			download: 'Descarcă arhiva',
 		},
 		security: {

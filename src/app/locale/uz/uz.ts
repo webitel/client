@@ -96,12 +96,9 @@ export default {
 		},
 		debugRecorder: {
 			title: 'Nosozliklarni tuzatish uchun yozib olish',
-			toggle: "Qo'llab-quvvatlash xizmati uchun ma'lumotlarni yozib olish",
-			description:
-				"24 soat davomida ushbu brauzer barcha Webitel ilovalaridagi tarmoq so'rovlari, qo'ng'iroqlar, qurilmalar holati va xatolarni yozib oladi. Parollar va shaxsiy ma'lumotlar olib tashlanadi, arxivni yuklab olib, qo'llab-quvvatlash xizmatiga yubormaguningizcha hech narsa brauzerdan chiqmaydi.",
-			status: '{until} gacha yozilmoqda · yozilgan hodisalar: {count}',
-			reloadHint:
-				"Avval ochilgan ulanishlar ham yozilishi uchun ochiq Webitel varaqlarini qayta yuklang (yoki muammo bo'layotgan ilovani oching).",
+			toggle: 'Nosozlik jurnallarini yozib olish',
+			hint: "Barcha Webitel ilovalarida tarmoq, qo'ng'iroqlar va xatolarni 24 soat davomida yozib oladi. Ma'lumotlar yuklab olinmaguncha shu brauzerda qoladi.",
+			status: '{until} gacha · hodisalar: {count}',
 			download: 'Arxivni yuklab olish',
 		},
 		security: {
