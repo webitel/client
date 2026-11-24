@@ -98,12 +98,9 @@ export default {
 		},
 		debugRecorder: {
 			title: 'Nagrywanie do debugowania',
-			toggle: 'Nagrywaj dane dla pomocy technicznej',
-			description:
-				'Przez 24 godziny ta przeglądarka nagrywa żądania sieciowe, połączenia, stan urządzeń i błędy we wszystkich aplikacjach Webitel. Hasła i dane osobowe są usuwane, a nic nie opuszcza przeglądarki, dopóki nie pobierzesz archiwum i nie wyślesz go do pomocy technicznej.',
-			status: 'Nagrywanie do {until} · nagrane zdarzenia: {count}',
-			reloadHint:
-				'Odśwież otwarte karty Webitel (lub otwórz aplikację, w której występuje problem), aby nagrywać także połączenia otwarte wcześniej.',
+			toggle: 'Nagrywaj logi debugowania',
+			hint: 'Nagrywa sieć, połączenia i błędy we wszystkich aplikacjach Webitel przez 24 godziny. Dane zostają w tej przeglądarce, dopóki ich nie pobierzesz.',
+			status: 'Do {until} · zdarzenia: {count}',
 			download: 'Pobierz archiwum',
 		},
 		security: {

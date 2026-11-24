@@ -96,12 +96,9 @@ export default {
 		},
 		debugRecorder: {
 			title: 'Grabación de depuración',
-			toggle: 'Grabar datos de depuración para el soporte',
-			description:
-				'Durante 24 horas, este navegador graba las solicitudes de red, las llamadas, el estado de los dispositivos y los errores en todas las aplicaciones de Webitel. Las contraseñas y los datos personales se eliminan, y nada sale del navegador hasta que descargue el archivo y lo envíe al soporte.',
-			status: 'Grabando hasta {until} · eventos grabados: {count}',
-			reloadHint:
-				'Recargue las pestañas abiertas de Webitel (o abra la aplicación con el problema) para que también se graben las conexiones abiertas antes.',
+			toggle: 'Grabar registros de depuración',
+			hint: 'Graba la red, las llamadas y los errores en todas las aplicaciones de Webitel durante 24 horas. Los datos permanecen en este navegador hasta que los descargue.',
+			status: 'Hasta {until} · eventos: {count}',
 			download: 'Descargar archivo',
 		},
 		security: {

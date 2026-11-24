@@ -95,12 +95,9 @@ export default {
 		},
 		debugRecorder: {
 			title: 'Ghi lại để gỡ lỗi',
-			toggle: 'Ghi dữ liệu cho bộ phận hỗ trợ',
-			description:
-				'Trong 24 giờ, trình duyệt này ghi lại các yêu cầu mạng, cuộc gọi, trạng thái thiết bị và lỗi trong mọi ứng dụng Webitel. Mật khẩu và dữ liệu cá nhân được loại bỏ, và không có gì rời khỏi trình duyệt cho đến khi bạn tải xuống tệp lưu trữ và gửi cho bộ phận hỗ trợ.',
-			status: 'Đang ghi đến {until} · số sự kiện đã ghi: {count}',
-			reloadHint:
-				'Hãy tải lại các tab Webitel đang mở (hoặc mở ứng dụng gặp sự cố) để ghi cả các kết nối đã mở trước đó.',
+			toggle: 'Ghi nhật ký gỡ lỗi',
+			hint: 'Ghi lại mạng, cuộc gọi và lỗi trong mọi ứng dụng Webitel trong 24 giờ. Dữ liệu được giữ trong trình duyệt này cho đến khi bạn tải xuống.',
+			status: 'Đến {until} · sự kiện: {count}',
 			download: 'Tải xuống tệp lưu trữ',
 		},
 		security: {
