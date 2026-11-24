@@ -32,7 +32,9 @@ const getAgent: typeof AgentsAPI.get = async (params) => {
 	const agent = await AgentsAPI.get(params);
 	if (!hasWfmLicense()) return agent;
 
-	const conditions = await AgentWorkingConditionsAPI.get(params);
+	const conditions = await AgentWorkingConditionsAPI.get(params).catch(
+		() => ({}),
+	);
 	return {
 		...agent,
 		...conditions,
