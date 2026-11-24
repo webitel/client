@@ -94,6 +94,16 @@ export default {
 			[RingtoneType.Chat]: 'Chat',
 			[RingtoneType.Task]: 'Tarea',
 		},
+		debugRecorder: {
+			title: 'Grabación de depuración',
+			toggle: 'Grabar datos de depuración para el soporte',
+			description:
+				'Durante 24 horas, este navegador graba las solicitudes de red, las llamadas, el estado de los dispositivos y los errores en todas las aplicaciones de Webitel. Las contraseñas y los datos personales se eliminan, y nada sale del navegador hasta que descargue el archivo y lo envíe al soporte.',
+			status: 'Grabando hasta {until} · eventos grabados: {count}',
+			reloadHint:
+				'Recargue las pestañas abiertas de Webitel (o abra la aplicación con el problema) para que también se graben las conexiones abiertas antes.',
+			download: 'Descargar archivo',
+		},
 		security: {
 			security: 'Seguridad',
 			logoutTitle: 'Cerrar sesión de este usuario en otros dispositivos',
