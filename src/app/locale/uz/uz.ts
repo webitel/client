@@ -97,9 +97,11 @@ export default {
 		debugRecorder: {
 			title: 'Nosozliklarni tuzatish uchun yozib olish',
 			toggle: 'Nosozlik jurnallarini yozib olish',
-			hint: "Barcha Webitel ilovalarida tarmoq, qo'ng'iroqlar va xatolarni 24 soat davomida yozib oladi. Ma'lumotlar yuklab olinmaguncha shu brauzerda qoladi.",
+			hint: "Barcha Webitel ilovalarida tarmoq, qo'ng'iroqlar va xatolarni 1 soat davomida yozib oladi. Keyin yozuv siz uni o'chirguningizcha shu brauzerda qoladi.",
 			status: '{until} gacha · hodisalar: {count}',
 			download: 'Arxivni yuklab olish',
+			archived: "Yozib olish to'xtatildi · hodisalar: {count}",
+			delete: "O'chirish",
 		},
 		security: {
 			security: 'Xavfsizlik',

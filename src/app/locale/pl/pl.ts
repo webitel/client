@@ -99,9 +99,11 @@ export default {
 		debugRecorder: {
 			title: 'Nagrywanie do debugowania',
 			toggle: 'Nagrywaj logi debugowania',
-			hint: 'Nagrywa sieć, połączenia i błędy we wszystkich aplikacjach Webitel przez 24 godziny. Dane zostają w tej przeglądarce, dopóki ich nie pobierzesz.',
+			hint: 'Nagrywa sieć, połączenia i błędy we wszystkich aplikacjach Webitel przez 1 godzinę. Potem nagranie zostaje w tej przeglądarce, dopóki go nie usuniesz.',
 			status: 'Do {until} · zdarzenia: {count}',
 			download: 'Pobierz archiwum',
+			archived: 'Nagrywanie zatrzymane · zdarzenia: {count}',
+			delete: 'Usuń',
 		},
 		security: {
 			security: 'Bezpieczeństwo',

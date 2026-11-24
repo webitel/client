@@ -96,9 +96,11 @@ export default {
 		debugRecorder: {
 			title: 'Ghi lại để gỡ lỗi',
 			toggle: 'Ghi nhật ký gỡ lỗi',
-			hint: 'Ghi lại mạng, cuộc gọi và lỗi trong mọi ứng dụng Webitel trong 24 giờ. Dữ liệu được giữ trong trình duyệt này cho đến khi bạn tải xuống.',
+			hint: 'Ghi lại mạng, cuộc gọi và lỗi trong mọi ứng dụng Webitel trong 1 giờ. Sau đó bản ghi được giữ trong trình duyệt này cho đến khi bạn xóa.',
 			status: 'Đến {until} · sự kiện: {count}',
 			download: 'Tải xuống tệp lưu trữ',
+			archived: 'Đã dừng ghi · sự kiện: {count}',
+			delete: 'Xóa',
 		},
 		security: {
 			security: 'Bảo mật',

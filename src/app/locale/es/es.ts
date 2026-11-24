@@ -97,9 +97,11 @@ export default {
 		debugRecorder: {
 			title: 'Grabación de depuración',
 			toggle: 'Grabar registros de depuración',
-			hint: 'Graba la red, las llamadas y los errores en todas las aplicaciones de Webitel durante 24 horas. Los datos permanecen en este navegador hasta que los descargue.',
+			hint: 'Graba la red, las llamadas y los errores en todas las aplicaciones de Webitel durante 1 hora. Después, la grabación permanece en este navegador hasta que la elimine.',
 			status: 'Hasta {until} · eventos: {count}',
 			download: 'Descargar archivo',
+			archived: 'Grabación detenida · eventos: {count}',
+			delete: 'Eliminar',
 		},
 		security: {
 			security: 'Seguridad',

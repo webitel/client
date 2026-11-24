@@ -16,21 +16,37 @@
         </template>
       </settings-switcher-row>
       <div
-        v-if="enabledUntil !== null"
+        v-if="enabledUntil !== null || archived"
         class="settings-general-debug-recorder__status"
       >
         <p class="settings-general-debug-recorder__muted typo-body-2">
-          {{ t('settings.debugRecorder.status', { until: formatTime(enabledUntil), count: records ?? 0 }) }}
+          {{
+            enabledUntil !== null
+              ? t('settings.debugRecorder.status', { until: formatTime(enabledUntil), count: records ?? 0 })
+              : t('settings.debugRecorder.archived', { count: records ?? 0 })
+          }}
         </p>
-        <wt-button
-          color="secondary"
-          size="sm"
-          :disabled="!records"
-          :loading="busy"
-          @click.prevent="download"
-        >
-          {{ t('settings.debugRecorder.download') }}
-        </wt-button>
+        <div class="settings-general-debug-recorder__actions">
+          <wt-button
+            color="secondary"
+            size="sm"
+            :disabled="!records"
+            :loading="busy"
+            @click.prevent="download"
+          >
+            {{ t('settings.debugRecorder.download') }}
+          </wt-button>
+          <!-- the hour is over: the archive waits here until deleted -->
+          <wt-button
+            v-if="enabledUntil === null && archived"
+            color="error"
+            size="sm"
+            :disabled="busy"
+            @click.prevent="deleteData"
+          >
+            {{ t('settings.debugRecorder.delete') }}
+          </wt-button>
+        </div>
       </div>
     </template>
   </settings-section-wrapper>
@@ -48,10 +64,12 @@ const {
 	available,
 	recording,
 	enabledUntil,
+	archived,
 	records,
 	busy,
 	setRecording,
 	download,
+	deleteData,
 } = useDebugRecorder();
 
 const formatTime = (t: number) =>
@@ -73,6 +91,11 @@ const formatTime = (t: number) =>
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.settings-general-debug-recorder__actions {
+  display: flex;
   gap: var(--spacing-xs);
 }
 
