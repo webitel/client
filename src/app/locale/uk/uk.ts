@@ -415,6 +415,8 @@ export default {
 					controlAgentScreen: 'Контролювати екран оператора',
 					controlAgentScreenDescription:
 						'Надає дозвіл на підключення до екрану, здійснення, перегляд та завантаження його записів та знімків',
+					imReadAll: 'Доступ до всіх чатів',
+					imReadAllDescription: 'Надає дозвіл на читання всіх чатів',
 					schemeVariablesDescription:
 						'Надає дозвіл на керування розділом Глобальні змінні',
 				},

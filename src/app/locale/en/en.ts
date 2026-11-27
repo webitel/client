@@ -409,6 +409,8 @@ export default {
 					controlAgentScreen: 'Control agent screen',
 					controlAgentScreenDescription:
 						'Grants permission to connect to the screen, record it, view recordings and screenshots, and download them',
+					imReadAll: 'Access all chats',
+					imReadAllDescription: 'Grants permission to read all chats',
 				},
 				addPermission: 'Add role permission',
 				usage: 'Usage',

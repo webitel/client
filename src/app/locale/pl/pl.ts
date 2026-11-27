@@ -411,6 +411,8 @@ export default {
 					controlAgentScreen: 'Sterowanie ekranem agenta',
 					schemeVariablesDescription:
 						'Uprawnienie do uzyskiwania dostępu i zarządzania sekcją Zmienne globalne',
+					imReadAll: 'Dostęp do wszystkich czatów',
+					imReadAllDescription: 'Uprawnienie do odczytu wszystkich czatów',
 				},
 				addPermission: 'Dodaj uprawnienie roli',
 				usage: 'Użycie',
