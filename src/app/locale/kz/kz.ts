@@ -407,6 +407,8 @@ export default {
 					controlAgentScreen: 'Агент экранын басқару',
 					schemeVariablesDescription:
 						'Жалпы айнымалылар бөлімін басқаруға рұқсат',
+					imReadAll: 'Барлық чаттарға қолжетімділік',
+					imReadAllDescription: 'Барлық чаттарды оқуға рұқсат береді',
 				},
 				addPermission: 'Рұқсат қосу',
 				usage: 'Пайдалану',

@@ -414,6 +414,8 @@ export default {
 					controlAgentScreen: 'Controlar la pantalla del agente',
 					schemeVariablesDescription:
 						'Otorga permiso para acceder y gestionar la sección de Variables globales',
+					imReadAll: 'Acceder a todos los chats',
+					imReadAllDescription: 'Otorga permiso para leer todos los chats',
 				},
 				addPermission: 'Añadir permiso de rol',
 				usage: 'Uso',

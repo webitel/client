@@ -412,6 +412,8 @@ export default {
 					controlAgentScreen: 'Controlul ecranului agentului',
 					schemeVariablesDescription:
 						'Permite accesarea și gestionarea secțiunii de variabile globale',
+					imReadAll: 'Acces la toate chaturile',
+					imReadAllDescription: 'Permite citirea tuturor chaturilor',
 				},
 				addPermission: 'Adaugă permisiune rol',
 				usage: 'Utilizare',

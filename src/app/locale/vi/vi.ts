@@ -408,6 +408,8 @@ export default {
 					controlAgentScreen: 'Điều khiển màn hình đại lý',
 					schemeVariablesDescription:
 						'Cấp quyền để truy cập và quản lý phần Biến toàn cầu',
+					imReadAll: 'Truy cập tất cả cuộc trò chuyện',
+					imReadAllDescription: 'Cấp quyền đọc tất cả cuộc trò chuyện',
 				},
 				addPermission: 'Thêm quyền hạn vai trò',
 				usage: 'Sử dụng',

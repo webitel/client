@@ -412,6 +412,8 @@ export default {
 					controlAgentScreen: 'Agent ekranini boshqarish',
 					schemeVariablesDescription:
 						"Ruxsat beradi Global o'zgaruvchilar bo'limiga kirish va boshqarish",
+					imReadAll: 'Barcha chatlarga kirish',
+					imReadAllDescription: "Barcha chatlarni o'qishga ruxsat beradi",
 				},
 				addPermission: "Ruxsat qo'shish",
 				usage: 'Ishlatish',
