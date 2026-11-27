@@ -71,9 +71,6 @@ const parameterDescriptors: {
 	[EngineSystemSettingName.MemberChunkSize]: {
 		type: ConfigurationValueType.Number,
 	},
-	[EngineSystemSettingName.SchemeVersionLimit]: {
-		type: ConfigurationValueType.Number,
-	},
 	[EngineSystemSettingName.SearchNumberLength]: {
 		type: ConfigurationValueType.Number,
 	},
